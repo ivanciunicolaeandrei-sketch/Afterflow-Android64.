@@ -1,0 +1,27 @@
+name: Build Input Buffer Android64
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: dominickmueller12-a11y/gd-input-buffer
+          ref: main
+          path: source
+
+      - uses: geode-sdk/build-geode-mod@main
+        id: build
+        with:
+          path: source
+          target: Android64
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: input-buffer-android64
+          path: ${{ steps.build.outputs.build-output }}/*.geode
